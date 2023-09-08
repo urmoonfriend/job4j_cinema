@@ -6,23 +6,18 @@ import java.util.Objects;
 
 public class FilmSession {
 
-    public static final Map<String, String> COLUMN_MAPPING = Map.of(
-            "id", "id",
-            "film_id", "filmId",
-            "start_time", "startTime",
-            "end_time", "endTime",
-            "price", "price"
-    );
-    private Long id;
-    private Long filmId;
-    private Long hallId;
+    public static final Map<String, String> COLUMN_MAPPING = Map.of("id", "id", "film_id", "filmId", "start_time", "startTime", "end_time", "endTime", "price", "price");
+    private Integer id;
+    private Integer filmId;
+    private Integer hallId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer price;
 
-    public FilmSession() {}
+    public FilmSession() {
+    }
 
-    public FilmSession(Long id, Long filmId, Long hallId, LocalDateTime startTime, LocalDateTime endTime, Integer price) {
+    public FilmSession(Integer id, Integer filmId, Integer hallId, LocalDateTime startTime, LocalDateTime endTime, Integer price) {
         this.id = id;
         this.filmId = filmId;
         this.hallId = hallId;
@@ -31,27 +26,27 @@ public class FilmSession {
         this.price = price;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getFilmId() {
+    public Integer getFilmId() {
         return filmId;
     }
 
-    public void setFilmId(Long filmId) {
+    public void setFilmId(Integer filmId) {
         this.filmId = filmId;
     }
 
-    public Long getHallId() {
+    public Integer getHallId() {
         return hallId;
     }
 
-    public void setHallId(Long hallId) {
+    public void setHallId(Integer hallId) {
         this.hallId = hallId;
     }
 
@@ -81,8 +76,12 @@ public class FilmSession {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FilmSession filmSession = (FilmSession) o;
         return id == filmSession.id;
     }

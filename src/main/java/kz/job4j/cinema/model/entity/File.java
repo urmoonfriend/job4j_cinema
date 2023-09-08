@@ -3,20 +3,25 @@ package kz.job4j.cinema.model.entity;
 import java.util.Objects;
 
 public class File {
-    private Long id;
+    private Integer id;
     private String name;
     private String path;
 
-    public File () {}
+    public File() {
+    }
 
     public File(String name, String path) {
         this.name = name;
         this.path = path;
     }
 
-    public Long getId() {return id;}
+    public Integer getId() {
+        return id;
+    }
 
-    public void setId(Long id) {this.id = id;}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -43,12 +48,12 @@ public class File {
             return false;
         }
         File file = (File) o;
-        return id == file.id && Objects.equals(path, file.path);
+        return id == file.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, path);
+        return Objects.hash(id);
     }
 
 }

@@ -3,7 +3,7 @@ package kz.job4j.cinema.model.entity;
 import java.util.Objects;
 
 public class Genre {
-    private Long id;
+    private Integer id;
     private String name;
 
     public Genre() {
@@ -13,7 +13,7 @@ public class Genre {
         this.name = name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -21,7 +21,7 @@ public class Genre {
         return name;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,8 +31,12 @@ public class Genre {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Genre genre = (Genre) o;
         return id == genre.id;
     }

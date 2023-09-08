@@ -12,7 +12,7 @@ public class Hall {
             "place_count", "placeCount",
             "description", "description"
     );
-    private Long id;
+    private Integer id;
     private String name;
     private Integer rowCount;
     private Integer placeCount;
@@ -21,7 +21,7 @@ public class Hall {
     public Hall() {
     }
 
-    public Hall(Long id, String name, Integer rowCount, Integer placeCount, String description) {
+    public Hall(Integer id, String name, Integer rowCount, Integer placeCount, String description) {
         this.id = id;
         this.name = name;
         this.rowCount = rowCount;
@@ -29,11 +29,11 @@ public class Hall {
         this.description = description;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,8 +71,12 @@ public class Hall {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Hall hall = (Hall) o;
         return id == hall.id;
     }

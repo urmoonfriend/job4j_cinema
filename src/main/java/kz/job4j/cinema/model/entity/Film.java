@@ -14,19 +14,19 @@ public class Film {
             "duration_in_minutes", "durationInMinutes",
             "file_id", "fileId"
     );
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private Integer year;
-    private Long genreId;
+    private Integer genreId;
     private Integer minimalAge;
     private Integer durationInMinutes;
-    private Long fileId;
+    private Integer fileId;
 
     public Film() {
     }
 
-    public Film(String name, String description, Integer year, Long genreId, Integer minimalAge, Integer durationInMinutes, Long fileId) {
+    public Film(String name, String description, Integer year, Integer genreId, Integer minimalAge, Integer durationInMinutes, Integer fileId) {
         this.name = name;
         this.description = description;
         this.year = year;
@@ -36,11 +36,11 @@ public class Film {
         this.fileId = fileId;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,11 +68,11 @@ public class Film {
         this.year = year;
     }
 
-    public Long getGenreId() {
+    public Integer getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(Long genreId) {
+    public void setGenreId(Integer genreId) {
         this.genreId = genreId;
     }
 
@@ -92,18 +92,22 @@ public class Film {
         this.durationInMinutes = durationInMinutes;
     }
 
-    public Long getFileId() {
+    public Integer getFileId() {
         return fileId;
     }
 
-    public void setFileId(Long fileId) {
+    public void setFileId(Integer fileId) {
         this.fileId = fileId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Film film = (Film) o;
         return id == film.id;
     }

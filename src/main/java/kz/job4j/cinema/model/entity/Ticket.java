@@ -12,15 +12,16 @@ public class Ticket {
             "place_number", "placeNumber",
             "user_id", "userId"
     );
-    private Long id;
-    private Long sessionId;
+    private Integer id;
+    private Integer sessionId;
     private Integer rowNumber;
     private Integer placeNumber;
-    private Long userId;
+    private Integer userId;
 
-    public Ticket() {}
+    public Ticket() {
+    }
 
-    public Ticket(Long id, Long sessionId, Integer rowNumber, Integer placeNumber, Long userId) {
+    public Ticket(Integer id, Integer sessionId, Integer rowNumber, Integer placeNumber, Integer userId) {
         this.id = id;
         this.sessionId = sessionId;
         this.rowNumber = rowNumber;
@@ -28,19 +29,19 @@ public class Ticket {
         this.userId = userId;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getSessionId() {
+    public Integer getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Long sessionId) {
+    public void setSessionId(Integer sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -60,18 +61,22 @@ public class Ticket {
         this.placeNumber = placeNumber;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Ticket ticket = (Ticket) o;
         return id == ticket.id;
     }
