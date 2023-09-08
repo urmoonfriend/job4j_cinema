@@ -1,11 +1,13 @@
-package kz.job4j.cinema.repository;
+package kz.job4j.cinema.service;
 
 import kz.job4j.cinema.model.entity.User;
 
 import java.util.Optional;
 
-public interface UserRepository {
+public interface UserService {
     User save(User user);
+
+    boolean update(User user);
 
     Optional<User> findById(int id);
 
@@ -14,6 +16,4 @@ public interface UserRepository {
     void deleteById(int id);
 
     Optional<User> findByEmailAndPassword(String email, String password);
-
-    boolean update(User user);
 }

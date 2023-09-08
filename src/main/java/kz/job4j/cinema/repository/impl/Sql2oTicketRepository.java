@@ -1,6 +1,5 @@
 package kz.job4j.cinema.repository.impl;
 
-import kz.job4j.cinema.model.entity.Genre;
 import kz.job4j.cinema.model.entity.Ticket;
 import kz.job4j.cinema.repository.TicketRepository;
 import net.jcip.annotations.ThreadSafe;

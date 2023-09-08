@@ -1,8 +1,6 @@
 package kz.job4j.cinema.repository.impl;
 
-import kz.job4j.cinema.model.entity.Genre;
 import kz.job4j.cinema.model.entity.User;
-import kz.job4j.cinema.repository.GenreRepository;
 import kz.job4j.cinema.repository.UserRepository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
@@ -56,6 +54,36 @@ public class Sql2oUserRepository implements UserRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM users WHERE id = :id");
             query.addParameter("id", id).executeUpdate();
+        }
+    }
+
+    @Override
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM users WHERE email = :email and password = :password");
+            query.addParameter("email", email);
+            query.addParameter("password", password);
+            var user = query.executeAndFetchFirst(User.class);
+            return Optional.ofNullable(user);
+        }
+    }
+
+    @Override
+    public boolean update(User user) {
+        try (var connection = sql2o.open()) {
+            var sql = """
+                    UPDATE users
+                    SET full_name = :full_name, email = :email, 
+                    password = :password
+                    WHERE id = :id
+                    """;
+            var query = connection.createQuery(sql)
+                    .addParameter("full_name", user.getFullName())
+                    .addParameter("email", user.getEmail())
+                    .addParameter("password", user.getPassword())
+                    .addParameter("id", user.getId());
+            var affectedRows = query.executeUpdate().getResult();
+            return affectedRows > 0;
         }
     }
 }
