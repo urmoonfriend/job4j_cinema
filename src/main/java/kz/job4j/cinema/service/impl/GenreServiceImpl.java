@@ -38,4 +38,13 @@ public class GenreServiceImpl implements GenreService {
     public void deleteById(int id) {
         genreRepository.deleteById(id);
     }
+
+    @Override
+    public Genre getById(int id) {
+        var genreOpt = findById(id);
+        if(genreOpt.isPresent()) {
+            return genreOpt.get();
+        }
+        return new Genre("unknown");
+    }
 }
