@@ -18,5 +18,6 @@ public interface FilmService {
     void deleteById(int id);
 
     List<FilmResponse> findAll();
+
     FilmResponse getByFilm(Film film);
 }

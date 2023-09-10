@@ -67,6 +67,15 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmResponse getByFilm(Film film) {
-        return new FilmResponse(film.getId(), film.getName(), film.getDescription(), film.getYear(), genreService.getById(film.getGenreId()).getName(), film.getMinimalAge(), film.getDurationInMinutes(), film.getFileId());
+        FilmResponse result = new FilmResponse();
+        result.setFilmId(film.getId());
+        result.setName(film.getName());
+        result.setDescription(film.getDescription());
+        result.setYear(film.getYear());
+        result.setGenre(genreService.getById(film.getGenreId()).getName());
+        result.setMinimalAge(film.getMinimalAge());
+        result.setDurationInMinutes(film.getDurationInMinutes());
+        result.setFileId(film.getFileId());
+        return result;
     }
 }

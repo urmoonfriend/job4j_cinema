@@ -14,5 +14,6 @@ public interface FilmRepository {
     Optional<Film> findByName(String name);
 
     void deleteById(int id);
+
     Collection<Film> findAll();
 }

@@ -3,11 +3,10 @@ package kz.job4j.cinema.model.response;
 import java.util.Objects;
 
 public class FilmResponse {
-    private Integer id;
+    private Integer filmId;
     private String name;
     private String description;
     private Integer year;
-
     private String genre;
     private Integer minimalAge;
     private Integer durationInMinutes;
@@ -16,8 +15,8 @@ public class FilmResponse {
     public FilmResponse() {
     }
 
-    public FilmResponse(Integer id, String name, String description, Integer year, String genre, Integer minimalAge, Integer durationInMinutes, Integer fileId) {
-        this.id = id;
+/*    public FilmResponse(Integer filmId, String name, String description, Integer year, String genre, Integer minimalAge, Integer durationInMinutes, Integer fileId) {
+        this.filmId = filmId;
         this.name = name;
         this.description = description;
         this.year = year;
@@ -25,14 +24,14 @@ public class FilmResponse {
         this.minimalAge = minimalAge;
         this.durationInMinutes = durationInMinutes;
         this.fileId = fileId;
+    }*/
+
+    public Integer getFilmId() {
+        return filmId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setFilmId(Integer filmId) {
+        this.filmId = filmId;
     }
 
     public String getName() {
@@ -100,11 +99,11 @@ public class FilmResponse {
             return false;
         }
         FilmResponse film = (FilmResponse) o;
-        return id == film.id;
+        return filmId == film.filmId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(filmId);
     }
 }

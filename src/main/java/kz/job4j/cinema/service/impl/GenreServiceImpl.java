@@ -42,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre getById(int id) {
         var genreOpt = findById(id);
-        if(genreOpt.isPresent()) {
+        if (genreOpt.isPresent()) {
             return genreOpt.get();
         }
         return new Genre("unknown");

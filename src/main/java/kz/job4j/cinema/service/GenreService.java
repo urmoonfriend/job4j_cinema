@@ -12,5 +12,6 @@ public interface GenreService {
     Optional<Genre> findByName(String name);
 
     void deleteById(int id);
+
     Genre getById(int id);
 }
