@@ -1,5 +1,6 @@
 package kz.job4j.cinema.repository.impl;
 
+import kz.job4j.cinema.model.entity.Film;
 import kz.job4j.cinema.model.entity.Hall;
 import kz.job4j.cinema.repository.HallRepository;
 import net.jcip.annotations.ThreadSafe;
@@ -37,7 +38,7 @@ public class Sql2oHallRepository implements HallRepository {
     public Optional<Hall> findById(int id) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM halls WHERE id = :id");
-            var hall = query.addParameter("id", id).executeAndFetchFirst(Hall.class);
+            var hall = query.addParameter("id", id).setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetchFirst(Hall.class);
             return Optional.ofNullable(hall);
         }
     }
@@ -46,7 +47,7 @@ public class Sql2oHallRepository implements HallRepository {
     public Optional<Hall> findByName(String name) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM halls WHERE name = :name");
-            var hall = query.addParameter("name", name).executeAndFetchFirst(Hall.class);
+            var hall = query.addParameter("name", name).setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetchFirst(Hall.class);
             return Optional.ofNullable(hall);
         }
     }
@@ -55,7 +56,7 @@ public class Sql2oHallRepository implements HallRepository {
     public void deleteById(int id) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM halls WHERE id = :id");
-            query.addParameter("id", id).executeUpdate();
+            query.addParameter("id", id).setColumnMappings(Hall.COLUMN_MAPPING).executeUpdate();
         }
     }
 }

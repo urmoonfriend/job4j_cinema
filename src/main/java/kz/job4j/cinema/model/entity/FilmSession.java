@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class FilmSession {
 
-    public static final Map<String, String> COLUMN_MAPPING = Map.of("id", "id", "film_id", "filmId", "start_time", "startTime", "end_time", "endTime", "price", "price");
+    public static final Map<String, String> COLUMN_MAPPING = Map.of("id", "id", "film_id", "filmId", "halls_id", "hallId", "start_time", "startTime", "end_time", "endTime", "price", "price");
     private Integer id;
     private Integer filmId;
     private Integer hallId;

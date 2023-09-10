@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 @ThreadSafe
 @RequestMapping("/films")
 public class FilmController {
-    private static final String REDIRECT_FILMS = "redirect:/films";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String NOT_FOUND_PAGE = "errors/404";
     private static final String NOT_FOUND_MESSAGE = "Фильм с указанным идентификатором не найден";
@@ -29,22 +28,6 @@ public class FilmController {
     public String getAll(Model model) {
         model.addAttribute("films", filmService.findAll());
         return "films/list";
-    }
-
-    @GetMapping("/create")
-    public String getCreationPage() {
-        return "films/create";
-    }
-
-    @PostMapping("/create")
-    public String create(@ModelAttribute Film film, @RequestParam MultipartFile file, Model model) {
-        try {
-            filmService.save(film, new FileDto(file.getOriginalFilename(), file.getBytes()));
-            return REDIRECT_FILMS;
-        } catch (Exception e) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, e.getMessage());
-            return NOT_FOUND_PAGE;
-        }
     }
 
     @GetMapping("/{id}")
