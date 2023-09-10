@@ -33,8 +33,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="film: ${films}">
-                    <td th:text="${film.id}" />
-                    <td><a th:text="${film.name}" th:href="@{/films/{filmId}(filmId=${film.id})}"></a>
+                    <td th:text="${film.filmId}" />
+                    <td><a th:text="${film.name}" th:href="@{/films/{filmId}(filmId=${film.filmId})}"></a>
                     </td>
                     <td th:text="${film.year}"/>
                     <td th:text="${film.genre}"/>

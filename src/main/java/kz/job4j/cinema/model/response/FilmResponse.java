@@ -106,4 +106,16 @@ public class FilmResponse {
     public int hashCode() {
         return Objects.hash(filmId);
     }
+
+    @Override
+    public String toString() {
+        return "[ {\n\tfilmId: " + filmId + ",\n"
+                + "\tname: " + name + ",\n"
+                + "\tdescription: " + description + ",\n"
+                + "\tyear:" + year + ",\n"
+                + "\tgenre: " + genre + ",\n"
+                + "\tminimalAge: " + minimalAge + ",\n"
+                + "\tdurationInMinutes: " + durationInMinutes + ",\n"
+                + "\tfileId: " + fileId + "\n} ]";
+    }
 }

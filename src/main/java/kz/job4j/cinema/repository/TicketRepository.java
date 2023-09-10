@@ -10,4 +10,6 @@ public interface TicketRepository {
     Optional<Ticket> findById(int id);
 
     void deleteById(int id);
+
+    Optional<Ticket> findBySessionIdAndRowNumberAndPlaceNumber(Integer sessionId, Integer rowNumber, Integer placeNumber);
 }

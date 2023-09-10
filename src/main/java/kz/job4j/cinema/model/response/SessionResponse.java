@@ -3,6 +3,7 @@ package kz.job4j.cinema.model.response;
 import kz.job4j.cinema.model.entity.Hall;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class SessionResponse {
 
@@ -73,5 +74,32 @@ public class SessionResponse {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SessionResponse sessionResponse = (SessionResponse) o;
+        return id == sessionResponse.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "[ {\n\tid: " + id + ",\n"
+                + "\tfilm: " + film.toString() + ",\n"
+                + "\thall: " + hall + ",\n"
+                + "\tstartTime:" + startTime + ",\n"
+                + "\tendTime: " + endTime + ",\n"
+                + "\tprice: " + price + "\n} ]";
     }
 }

@@ -1,42 +1,55 @@
 <!doctype html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
 </head>
 <body>
 <div class="container-fluid p-0">
     <header th:insert="blocks/header :: header"></header>
     <div class="container">
-        <form class="mt-3" th:action="@{/films/update}" method="post" th:object="${film}" enctype="multipart/form-data">
-            <input type="hidden" name="id" th:field="*{filmId}">
+        <form class="mt-3" th:action="@{/sessions/update}" method="post" th:object="${filmSession}" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:field="*{id}">
                     <div class="mb-3" style="font-size: 30px;">
-                        <label for="name" class="form-label"><b>[[${film.name}]]</b></label>
-                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" placeholder="Введите наименование" readonly="true" style="display: none;">
-                    </div>            <input type="hidden" name="fileId" th:field="*{fileId}" readonly>
+                        <label for="name" class="form-label"><b>[[${filmSession.film.name}]]</b></label>
+                        <input type="text" class="form-control" id="name" name="name" th:field="*{film.name}" placeholder="Введите наименование" readonly="true" style="display: none;">
+                    </div>            <input type="hidden" name="fileId" th:field="*{film.fileId}" readonly>
             <div class="row mb-3">
                 <div class="col-3">
                     <div class="mb-3">
-                        <img th:src="@{/files/{fileId}(fileId=*{fileId})}" class="w-100" alt="No image" readonly>
+                        <img th:src="@{/files/{fileId}(fileId=*{film.fileId})}" class="w-100" alt="No image" readonly>
                     </div>
                     <div class="mb-3">
                         <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file" style="display: none;">
                     </div>
                 </div>
                 <div class="col-9">
-                    <div class="mb-3"><label class="form-label"><b>Описание: [[${film.description}]]</b></label></div>
-                    <div class="mb-3"><label class="form-label"><b>Год: [[${film.year}]]</b></label></div>
-                    <div class="mb-3"><label class="form-label"><b>Жанр: [[${film.genre}]]</b></label></div>
-                    <div class="mb-3"><label class="form-label"><b>Возраст: [[${film.minimalAge}]]</b></label></div>
-                    <div class="mb-3"><label class="form-label"><b>Длительность: [[${film.durationInMinutes}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Описание: [[${filmSession.film.description}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Год: [[${filmSession.film.year}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Жанр: [[${filmSession.film.genre}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Возраст: [[${filmSession.film.minimalAge}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Длительность: [[${filmSession.film.durationInMinutes}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Зал: [[${filmSession.hall.name}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Начало: [[${filmSession.startTime}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Конец: [[${filmSession.endTime}]]</b></label></div>
+                    <div class="mb-3"><label class="form-label"><b>Цена: [[${filmSession.price}]]</b></label></div>
+                    <div class="mb-3">
+                        <label for="row_count"><b>Ряд</b></label>
+                        <select class="form-control" id="row_count" name="rowCount">
+                            <option th:each="num : ${#numbers.sequence(1, filmSession.hall.rowCount)}" th:value="${num}" th:text="${num}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="place_count"><b>Место</b></label>
+                        <select class="form-control" id="place_count" name="placeCount">
+                            <option th:each="num : ${#numbers.sequence(1, filmSession.hall.placeCount)}" th:value="${num}" th:text="${num}"></option>
+                        </select>
+                    </div>
                 </div>
             </div>
-
             <!-- FOR UPDATE PAGE
             <div class="mb-3">
                 <label for="description" class="form-label" style="display: none;"><b>Описание</b></label>
@@ -60,12 +73,13 @@
             </div>
             -->
             <div class="mb-3 row">
-                <div class="col-6"></div>
-                <div class="col-6">
+                <div class="col-5"></div>
+                <div class="col-5">
                     <div class="row">
-                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/films}">Назад</a></div>
-                        <div class="col-4"><a class="btn btn-danger w-100" th:href="@{/filmd/delete/{id}(id=${film.filmId})}" hidden="true">Удалить</a></div>
-                        <div class="col-4"><button class="btn btn-success w-100" type="submit" hidden="true">Обновить</button></div>
+                        <div class="col-5"><a class="btn btn-light w-100" th:href="@{/sessions}">Отмена</a></div>
+                        <div class="col-5">
+                            <button class="btn btn-primary w-100" type="submit">Купить</button>
+                        </div>
                     </div>
                 </div>
             </div>

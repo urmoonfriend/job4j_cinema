@@ -29,8 +29,9 @@ public class FilmSessionServiceImpl implements FilmSessionService {
     }
 
     @Override
-    public Optional<FilmSession> findById(int id) {
-        return filmSessionRepository.findById(id);
+    public Optional<SessionResponse> findById(int id) {
+        var sessionOpt = filmSessionRepository.findById(id);
+        return sessionOpt.map(this::getBySession);
     }
 
     @Override

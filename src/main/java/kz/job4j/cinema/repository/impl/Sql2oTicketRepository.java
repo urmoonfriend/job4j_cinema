@@ -49,4 +49,20 @@ public class Sql2oTicketRepository implements TicketRepository {
             query.addParameter("id", id).executeUpdate();
         }
     }
+
+    @Override
+    public Optional<Ticket> findBySessionIdAndRowNumberAndPlaceNumber(Integer sessionId, Integer rowNumber, Integer placeNumber) {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM tickets" +
+                    " WHERE session_id = :session_id" +
+                    " and row_number = :row_number" +
+                    " and place_number = :place_number");
+            var ticket = query
+                    .addParameter("session_id", sessionId)
+                    .addParameter("row_number", rowNumber)
+                    .addParameter("place_number", placeNumber)
+                    .executeAndFetchFirst(Ticket.class);
+            return Optional.ofNullable(ticket);
+        }
+    }
 }

@@ -85,4 +85,13 @@ public class Hall {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "[ {\n\tid: " + id + ",\n"
+                + "\tname: " + name + ",\n"
+                + "\trowCount: " + rowCount + ",\n"
+                + "\tplaceCount:" + placeCount + ",\n"
+                + "\tdescription: " + description +"\n} ]";
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FilmSessionService {
-    Optional<FilmSession> findById(int id);
+    Optional<SessionResponse> findById(int id);
 
     FilmSession save(FilmSession filmSession);
 

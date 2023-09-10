@@ -85,4 +85,13 @@ public class Ticket {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "[ {\n\tid: " + id + ",\n"
+                + "\tsessionId: " + sessionId + ",\n"
+                + "\trowNumber: " + rowNumber + ",\n"
+                + "\tplaceNumber:" + placeNumber + ",\n"
+                + "\tuserId: " + userId + "\n} ]";
+    }
 }
