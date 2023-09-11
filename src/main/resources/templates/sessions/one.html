@@ -18,18 +18,10 @@
     <div class="container">
         <form class="mt-3" th:action="@{/tickets/buy}" method="post">
             <div class="mb-3">
-                <label for="filmSessionId" class="form-label"><b>#</b></label>
-                <input type="text" class="form-control" name="filmSessionId" id="filmSessionId" th:field="*{filmSession.id}">
+                <input type="hidden" id="filmSessionId" name="filmSessionId" th:value="*{filmSession.id}" th:text="*{filmSession.id}">
             </div>
-<!--            <input type="hidden" id="sessionId" name="sessionId" th:field="*{filmSession.id}">-->
             <div class="mb-3" style="font-size: 30px;">
                 <label class="form-label"><b>[[${filmSession.film.name}]]</b></label>
-                <!-- <label for="sessionResponse.film.name" class="form-label"><b>[[${filmSession.film.name}]]</b></label>
-                <label id="sessionResponse.film.name" name="sessionResponse.film.name"
-                       th:text="*{filmSession.film.name}" placeholder="Наименование фильма:" style="display: none;"></label>-->
-                <!--<input type="text" class="form-control" id="sessionResponse.film.name" name="sessionResponse.film.name"
-                       th:field="*{filmSession.film.name}" placeholder="Введите наименование" readonly="true"
-                       style="display: none;">-->
             </div>
             <input type="hidden" name="fileId" th:field="*{filmSession.film.fileId}" readonly>
 
@@ -45,58 +37,30 @@
                         <div class="col-9">
                             <div class="mb-4">
                                 <label class="form-label"><b>Описание: [[${filmSession.film.description}]]</b></label>
-                                <!--<label for="sessionResponse.film.description" class="form-label"><b>Описание:</b></label>
-                                <label id="sessionResponse.film.description" name="sessionResponse.film.description"
-                                       th:text="*{filmSession.film.description}" placeholder="Описание фильма"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Жанр: [[${filmSession.film.genre}]]</b></label>
-                                <!--<label for="sessionResponse.film.genre" class="form-label"><b>Жанр:</b></label>
-                                <label id="sessionResponse.film.genre" name="sessionResponse.film.genre"
-                                       th:text="*{filmSession.film.genre}" placeholder="Жанр"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Год: [[${filmSession.film.year}]]</b></label>
-                                <!--<label for="sessionResponse.film.year" class="form-label"><b>Год:</b></label>
-                                <label id="sessionResponse.film.year" name="sessionResponse.film.year"
-                                       th:text="*{filmSession.film.year}" placeholder="Год"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Возраст: [[${filmSession.film.minimalAge}]]</b></label>
-                                <!--<label for="sessionResponse.film.minimalAge" class="form-label"><b>Возраст:</b></label>
-                                <label id="sessionResponse.film.minimalAge" name="sessionResponse.film.minimalAge"
-                                       th:text="*{filmSession.film.minimalAge}" placeholder="Возраст"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Длительность: [[${filmSession.film.durationInMinutes}]]</b></label>
-                                <!--<label for="sessionResponse.film.durationInMinutes"
-                                       class="form-label"><b>Длительность:</b></label>
-                                <label id="sessionResponse.film.durationInMinutes" name="sessionResponse.film.durationInMinutes"
-                                       th:text="*{filmSession.film.durationInMinutes}" placeholder="Длительность"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Зал: [[${filmSession.hall.name}]]</b></label>
-                                <!--<label for="sessionResponse.hall.name" class="form-label"><b>Зал:</b></label>
-                                <label id="sessionResponse.hall.name" name="sessionResponse.hall.name"
-                                       th:text="*{filmSession.hall.name}" placeholder="Зал"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Начало: [[${filmSession.startTime}]]</b></label>
-                                <!--<label for="sessionResponse.film.startTime" class="form-label"><b>Начало:</b></label>
-                                <label id="sessionResponse.film.startTime" name="sessionResponse.film.startTime"
-                                       th:text="*{filmSession.startTime}" placeholder="Начало"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Конец: [[${filmSession.endTime}]]</b></label>
-                                <!--<label for="sessionResponse.film.endTime" class="form-label"><b>Конец:</b></label>
-                                <label id="sessionResponse.film.endTime" name="sessionResponse.film.endTime"
-                                       th:text="*{filmSession.endTime}" placeholder="Конец"></label>-->
                             </div>
                             <div class="mb-4">
                                 <label class="form-label"><b>Цена: [[${filmSession.price}]]</b></label>
-                                <!--<label for="sessionResponse.price" class="form-label"><b>Цена:</b></label>
-                                <label id="sessionResponse.price" name="sessionResponse.price" th:text="*{filmSession.price}"
-                                       placeholder="Цена"></label>-->
                             </div>
                             <div class="row mb-3" style="display: flex; justify-content: space-between;">
                                 <div class="col-3">
@@ -118,22 +82,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="row mb-3" style="display: flex; justify-content: space-between;">
-                <div class="col-3">
-                    <label for="rowСount"><b>Ряд:</b></label>
-                    <select class="form-control" id="rowСount" name="rowCount" style="width: 130px;">
-                        <option th:each="num : ${#numbers.sequence(1, filmSession.hall.rowCount)}" th:value="${num}"
-                                th:text="${num}"></option>
-                    </select>
-                </div>
-                <div class="col-9">
-                    <label for="placeСount"><b>Место:</b></label>
-                    <select class="form-control" id="placeСount" name="placeCount" style="width: 130px;">
-                        <option th:each="num : ${#numbers.sequence(1, filmSession.hall.placeCount)}" th:value="${num}"
-                                th:text="${num}"></option>
-                    </select>
-                </div>
-            </div>-->
             <div class="mb-3 row">
                 <div class="col-5"></div>
                 <div class="col-5">

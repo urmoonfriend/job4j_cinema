@@ -92,6 +92,6 @@ public class Hall {
                 + "\tname: " + name + ",\n"
                 + "\trowCount: " + rowCount + ",\n"
                 + "\tplaceCount:" + placeCount + ",\n"
-                + "\tdescription: " + description +"\n} ]";
+                + "\tdescription: " + description + "\n} ]";
     }
 }

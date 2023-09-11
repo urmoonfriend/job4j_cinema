@@ -7,10 +7,12 @@ import java.util.Optional;
 
 public interface TicketService {
     Ticket save(Ticket ticket);
+
     Optional<Ticket> isAlreadyExists(Integer sessionId, Integer rowNumber, Integer placeNumber);
 
     Optional<Ticket> findById(int id);
 
     void deleteById(int id);
+
     Ticket save(BuyRequest request);
 }

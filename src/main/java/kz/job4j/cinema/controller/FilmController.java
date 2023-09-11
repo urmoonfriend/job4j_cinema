@@ -1,14 +1,13 @@
 package kz.job4j.cinema.controller;
 
-import kz.job4j.cinema.model.dto.FileDto;
-import kz.job4j.cinema.model.entity.Film;
 import kz.job4j.cinema.service.FilmService;
 import kz.job4j.cinema.service.impl.FilmServiceImpl;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @ThreadSafe

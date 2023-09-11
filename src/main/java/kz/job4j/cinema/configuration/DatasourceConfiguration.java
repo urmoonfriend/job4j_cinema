@@ -39,7 +39,7 @@ public class DatasourceConfiguration {
         return new NoQuirks() {
             {
                 converters.put(LocalDateTime.class, new Converter<LocalDateTime>() {
-                    
+
                     @Override
                     public LocalDateTime convert(Object value) throws ConverterException {
                         if (value == null) {
