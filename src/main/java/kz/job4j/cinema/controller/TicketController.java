@@ -1,5 +1,6 @@
 package kz.job4j.cinema.controller;
 
+import kz.job4j.cinema.model.entity.User;
 import kz.job4j.cinema.model.request.BuyRequest;
 import kz.job4j.cinema.service.FilmSessionService;
 import kz.job4j.cinema.service.TicketService;
@@ -8,6 +9,8 @@ import kz.job4j.cinema.service.impl.TicketServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/tickets")
@@ -18,13 +21,9 @@ public class TicketController {
     private static final String NOT_FOUND_PAGE = "errors/404";
     private static final String NOT_FOUND_MESSAGE = "Билет с указанным идентификатором не найден";
     private static final String TICKET_ATTRIBUTE = "ticket";
-
     private static final String SESSION_ATTRIBUTE = "filmSession";
     private static final String SUCCESS_PAGE = "tickets/success";
-
     private static final String FAIL_PAGE = "tickets/fail";
-
-    private static final String REDIRECT_SESSIONS = "redirect:/sessions";
 
     public TicketController(TicketServiceImpl ticketService, FilmSessionServiceImpl sessionService) {
         this.ticketService = ticketService;
@@ -32,7 +31,7 @@ public class TicketController {
     }
 
     @GetMapping("/{ticketId}")
-    public String getTicketPage(Model model, @PathVariable("ticketId") int ticketId) {
+    public String getTicketPage(Model model, @PathVariable("ticketId") int ticketId, HttpServletRequest request) {
         var ticketOpt = ticketService.findById(ticketId);
         if (ticketOpt.isEmpty()) {
             model.addAttribute(MESSAGE_ATTRIBUTE, NOT_FOUND_MESSAGE);
@@ -42,19 +41,22 @@ public class TicketController {
         return SUCCESS_PAGE;
     }
 
-    //TODO add user from HttpRequestServlet
     @PostMapping("/buy")
-    public String buyTicket(@ModelAttribute BuyRequest request, Model model) {
-        System.out.println("buyTicket method request : " + request.toString());
-        request.setUserId(1);
+    public String buyTicket(@ModelAttribute BuyRequest buyRequest, Model model, HttpServletRequest request) {
+        System.out.println("buyTicket method request : " + buyRequest.toString());
         try {
-            var filmSession = sessionService.findById(request.getFilmSessionId());
-            if (filmSession.isPresent()
-                    && ticketService.isAlreadyExists(request.getFilmSessionId(), request.getRowNumber(), request.getPlaceNumber())
+            var user = (User) request.getAttribute("user");
+            var filmSession = sessionService.findById(buyRequest.getFilmSessionId());
+            if (user == null || user.getId() == null) {
+                model.addAttribute("buyRequest", buyRequest);
+                return "users/login";
+            } else if (filmSession.isPresent()
+                    && ticketService.isAlreadyExists(buyRequest.getFilmSessionId(), buyRequest.getRowNumber(), buyRequest.getPlaceNumber())
                             .isEmpty()) {
+                buyRequest.setUserId(user.getId());
                 System.out.println("ticket not exists");
                 model.addAttribute(SESSION_ATTRIBUTE, filmSession.get());
-                model.addAttribute(TICKET_ATTRIBUTE, ticketService.save(request));
+                model.addAttribute(TICKET_ATTRIBUTE, ticketService.save(buyRequest));
                 return SUCCESS_PAGE;
             }
             return FAIL_PAGE;

@@ -1,6 +1,5 @@
 package kz.job4j.cinema.repository.impl;
 
-import kz.job4j.cinema.model.entity.Film;
 import kz.job4j.cinema.model.entity.Hall;
 import kz.job4j.cinema.repository.HallRepository;
 import net.jcip.annotations.ThreadSafe;

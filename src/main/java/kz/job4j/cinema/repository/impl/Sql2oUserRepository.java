@@ -19,23 +19,27 @@ public class Sql2oUserRepository implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
+    public Optional<User> save(User user) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("INSERT INTO users (full_name, email, password) VALUES (:full_name, :email, password)", true)
+            var query = connection.createQuery("INSERT INTO users (full_name, email, password) VALUES (:full_name, :email, :password) ", true)
                     .addParameter("full_name", user.getFullName())
                     .addParameter("email", user.getEmail())
                     .addParameter("password", user.getPassword());
             int generatedId = query.executeUpdate().getKey(Integer.class);
             user.setId(generatedId);
-            return user;
+            return Optional.of(user);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return Optional.empty();
     }
 
     @Override
     public Optional<User> findById(int id) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM users WHERE id = :id");
-            var user = query.addParameter("id", id).executeAndFetchFirst(User.class);
+            var user = query.addParameter("id", id).
+                    setColumnMappings(User.COLUMN_MAPPING).executeAndFetchFirst(User.class);
             return Optional.ofNullable(user);
         }
     }
@@ -63,7 +67,7 @@ public class Sql2oUserRepository implements UserRepository {
             var query = connection.createQuery("SELECT * FROM users WHERE email = :email and password = :password");
             query.addParameter("email", email);
             query.addParameter("password", password);
-            var user = query.executeAndFetchFirst(User.class);
+            var user = query.setColumnMappings(User.COLUMN_MAPPING).executeAndFetchFirst(User.class);
             return Optional.ofNullable(user);
         }
     }
