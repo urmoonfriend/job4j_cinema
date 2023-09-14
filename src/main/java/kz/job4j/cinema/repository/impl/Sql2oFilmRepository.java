@@ -21,7 +21,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public Film save(Film film) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("INSERT INTO films (name, description, year, genre_id, minimal_age, duration_in_minutes, file_id) "
+            var query = connection.createQuery("INSERT INTO films (name, description, \"year\", genre_id, minimal_age, duration_in_minutes, file_id) "
                             + "VALUES (:name, :description, :year, :genre_id, :minimal_age, :duration_in_minutes, :file_id)", true)
                     .addParameter("name", film.getName())
                     .addParameter("description", film.getDescription())
@@ -59,6 +59,13 @@ public class Sql2oFilmRepository implements FilmRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM films WHERE id = :id");
             query.addParameter("id", id).executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (var connection = sql2o.open()) {
+            connection.createQuery("DELETE FROM films").executeUpdate();
         }
     }
 

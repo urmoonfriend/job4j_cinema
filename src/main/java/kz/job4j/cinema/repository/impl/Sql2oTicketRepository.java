@@ -1,11 +1,13 @@
 package kz.job4j.cinema.repository.impl;
 
+import kz.job4j.cinema.model.entity.FilmSession;
 import kz.job4j.cinema.model.entity.Ticket;
 import kz.job4j.cinema.repository.TicketRepository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -37,7 +39,7 @@ public class Sql2oTicketRepository implements TicketRepository {
     public Optional<Ticket> findById(int id) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM tickets WHERE id = :id");
-            var ticket = query.addParameter("id", id).executeAndFetchFirst(Ticket.class);
+            var ticket = query.addParameter("id", id).setColumnMappings(Ticket.COLUMN_MAPPING).executeAndFetchFirst(Ticket.class);
             return Optional.ofNullable(ticket);
         }
     }
@@ -47,6 +49,13 @@ public class Sql2oTicketRepository implements TicketRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM tickets WHERE id = :id");
             query.addParameter("id", id).executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (var connection = sql2o.open()) {
+            connection.createQuery("DELETE FROM tickets").executeUpdate();
         }
     }
 
@@ -67,6 +76,14 @@ public class Sql2oTicketRepository implements TicketRepository {
                     .executeAndFetchFirst(Ticket.class);
             System.out.println("findBySessionIdAndRowNumberAndPlaceNumber method response: " + ticket);
             return Optional.ofNullable(ticket);
+        }
+    }
+
+    @Override
+    public Collection<Ticket> findAll() {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM tickets");
+            return query.setColumnMappings(Ticket.COLUMN_MAPPING).executeAndFetch(Ticket.class);
         }
     }
 }

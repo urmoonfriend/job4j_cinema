@@ -1,11 +1,13 @@
 package kz.job4j.cinema.repository.impl;
 
 import kz.job4j.cinema.model.entity.Genre;
+import kz.job4j.cinema.model.entity.Hall;
 import kz.job4j.cinema.repository.GenreRepository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -52,6 +54,21 @@ public class Sql2oGenreRepository implements GenreRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM genres WHERE id = :id");
             query.addParameter("id", id).executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (var connection = sql2o.open()) {
+            connection.createQuery("DELETE FROM genres").executeUpdate();
+        }
+    }
+
+    @Override
+    public Collection<Genre> findAll() {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM genres");
+            return query.executeAndFetch(Genre.class);
         }
     }
 }

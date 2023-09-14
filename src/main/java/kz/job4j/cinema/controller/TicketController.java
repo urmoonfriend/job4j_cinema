@@ -47,12 +47,9 @@ public class TicketController {
         try {
             var user = (User) request.getAttribute("user");
             var filmSession = sessionService.findById(buyRequest.getFilmSessionId());
-            if (user == null || user.getId() == null) {
-                model.addAttribute("buyRequest", buyRequest);
-                return "users/login";
-            } else if (filmSession.isPresent()
+            if (filmSession.isPresent()
                     && ticketService.isAlreadyExists(buyRequest.getFilmSessionId(), buyRequest.getRowNumber(), buyRequest.getPlaceNumber())
-                            .isEmpty()) {
+                    .isEmpty()) {
                 buyRequest.setUserId(user.getId());
                 System.out.println("ticket not exists");
                 model.addAttribute(SESSION_ATTRIBUTE, filmSession.get());

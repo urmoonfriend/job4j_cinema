@@ -2,6 +2,7 @@ package kz.job4j.cinema.repository;
 
 import kz.job4j.cinema.model.entity.Genre;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface GenreRepository {
@@ -12,4 +13,8 @@ public interface GenreRepository {
     Optional<Genre> findByName(String name);
 
     void deleteById(int id);
+
+    void deleteAll();
+
+    Collection<Genre> findAll();
 }

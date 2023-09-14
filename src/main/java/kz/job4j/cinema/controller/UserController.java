@@ -7,12 +7,13 @@ import kz.job4j.cinema.service.impl.UserServiceImpl;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import static java.lang.String.format;
 
 @Controller
 @ThreadSafe
@@ -20,7 +21,6 @@ import static java.lang.String.format;
 public class UserController {
     private final UserService userService;
     private static final String REDIRECT_SESSIONS = "redirect:/sessions";
-    private static final String REDIRECT_BUY_TICKET = "redirect:/sessions/{%d}";
 
     private static final String MESSAGE_ATTRIBUTE = "message";
 

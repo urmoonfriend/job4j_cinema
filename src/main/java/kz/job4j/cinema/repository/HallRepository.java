@@ -2,6 +2,7 @@ package kz.job4j.cinema.repository;
 
 import kz.job4j.cinema.model.entity.Hall;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface HallRepository {
@@ -12,4 +13,8 @@ public interface HallRepository {
     Optional<Hall> findByName(String name);
 
     void deleteById(int id);
+
+    Collection<Hall> findAll();
+
+    void deleteAll();
 }

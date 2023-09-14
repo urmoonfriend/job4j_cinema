@@ -1,11 +1,13 @@
 package kz.job4j.cinema.repository.impl;
 
+import kz.job4j.cinema.model.entity.Hall;
 import kz.job4j.cinema.model.entity.User;
 import kz.job4j.cinema.repository.UserRepository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -62,6 +64,13 @@ public class Sql2oUserRepository implements UserRepository {
     }
 
     @Override
+    public void deleteAll() {
+        try (var connection = sql2o.open()) {
+            connection.createQuery("DELETE FROM users").executeUpdate();
+        }
+    }
+
+    @Override
     public Optional<User> findByEmailAndPassword(String email, String password) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM users WHERE email = :email and password = :password");
@@ -88,6 +97,14 @@ public class Sql2oUserRepository implements UserRepository {
                     .addParameter("id", user.getId());
             var affectedRows = query.executeUpdate().getResult();
             return affectedRows > 0;
+        }
+    }
+
+    @Override
+    public Collection<User> findAll() {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM users");
+            return query.setColumnMappings(User.COLUMN_MAPPING).executeAndFetch(User.class);
         }
     }
 }

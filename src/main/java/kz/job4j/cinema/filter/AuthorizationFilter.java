@@ -1,5 +1,6 @@
 package kz.job4j.cinema.filter;
 
+import kz.job4j.cinema.model.entity.User;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,8 @@ public class AuthorizationFilter extends HttpFilter {
             chain.doFilter(request, response);
             return;
         }
-        var userLoggedIn = request.getSession().getAttribute("user") != null;
-        if (!userLoggedIn) {
+        var user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getId() == null) {
             var loginPageUrl = request.getContextPath() + "/users/login";
             response.sendRedirect(loginPageUrl);
             return;
@@ -31,13 +32,6 @@ public class AuthorizationFilter extends HttpFilter {
     }
 
     private boolean isAlwaysPermitted(String uri) {
-        return uri.startsWith("/users/register")
-                || uri.startsWith("/users/login")
-                || uri.startsWith("/")
-                || uri.startsWith("/index")
-                || uri.startsWith("/films")
-                || uri.startsWith("/sessions")
-                || uri.startsWith("/js")
-                || uri.startsWith("/css");
+        return !uri.startsWith("/tickets");
     }
 }

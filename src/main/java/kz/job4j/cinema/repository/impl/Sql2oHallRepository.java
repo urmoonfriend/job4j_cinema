@@ -6,6 +6,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -56,6 +57,21 @@ public class Sql2oHallRepository implements HallRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("DELETE FROM halls WHERE id = :id");
             query.addParameter("id", id).setColumnMappings(Hall.COLUMN_MAPPING).executeUpdate();
+        }
+    }
+
+    @Override
+    public Collection<Hall> findAll() {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM halls");
+            return query.setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetch(Hall.class);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (var connection = sql2o.open()) {
+            connection.createQuery("DELETE FROM halls").executeUpdate();
         }
     }
 }
