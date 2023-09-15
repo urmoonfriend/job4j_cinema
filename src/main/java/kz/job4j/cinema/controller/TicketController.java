@@ -30,17 +30,6 @@ public class TicketController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping("/{ticketId}")
-    public String getTicketPage(Model model, @PathVariable("ticketId") int ticketId, HttpServletRequest request) {
-        var ticketOpt = ticketService.findById(ticketId);
-        if (ticketOpt.isEmpty()) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, NOT_FOUND_MESSAGE);
-            return NOT_FOUND_PAGE;
-        }
-        model.addAttribute(TICKET_ATTRIBUTE, ticketOpt.get());
-        return SUCCESS_PAGE;
-    }
-
     @PostMapping("/buy")
     public String buyTicket(@ModelAttribute BuyRequest buyRequest, Model model, HttpServletRequest request) {
         System.out.println("buyTicket method request : " + buyRequest.toString());
