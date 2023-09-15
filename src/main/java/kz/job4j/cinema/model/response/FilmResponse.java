@@ -15,6 +15,16 @@ public class FilmResponse {
     public FilmResponse() {
     }
 
+    public FilmResponse(String name, String description, Integer year, String genre, Integer minimalAge, Integer durationInMinutes, Integer fileId) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.genre = genre;
+        this.minimalAge = minimalAge;
+        this.durationInMinutes = durationInMinutes;
+        this.fileId = fileId;
+    }
+
     public Integer getFilmId() {
         return filmId;
     }
