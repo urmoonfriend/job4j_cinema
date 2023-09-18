@@ -27,7 +27,6 @@ public class Film {
     }
 
     public Film(String name, String description, Integer year, Integer genreId, Integer minimalAge, Integer durationInMinutes, Integer fileId) {
-        //this.id = id;
         this.name = name;
         this.description = description;
         this.year = year;
