@@ -1,5 +1,7 @@
 package kz.job4j.cinema.model.dto;
 
+import java.util.Objects;
+
 public class FileDto {
     private String name;
 
@@ -24,6 +26,23 @@ public class FileDto {
 
     public void setContent(byte[] content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FileDto fileDto = (FileDto) o;
+        return name == fileDto.name && content == fileDto.content;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, content);
     }
 
 }
