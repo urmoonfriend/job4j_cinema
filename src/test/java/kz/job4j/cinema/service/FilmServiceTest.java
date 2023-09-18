@@ -15,14 +15,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 
 public class FilmServiceTest {
-
     private FilmServiceImpl filmService;
     private Sql2oFilmRepository filmRepository;
     private GenreServiceImpl genreService;
@@ -52,7 +49,7 @@ public class FilmServiceTest {
     @Test
     public void whenRequestGetByFilmThenOk() {
         Film film = new Film("name", "description", 2000, 0, 16, 180, 0);
-        FilmResponse filmResponse = new FilmResponse( "name", "description", 2000, "genre", 16, 180, 0);
+        FilmResponse filmResponse = new FilmResponse("name", "description", 2000, "genre", 16, 180, 0);
         when(genreService.getById(0)).thenReturn(new Genre("genre"));
         var result = filmService.getByFilm(film);
         assertThat(result).isEqualTo(filmResponse);
@@ -61,7 +58,7 @@ public class FilmServiceTest {
     @Test
     public void whenRequestGetByFilmThenGenreNotFound() {
         Film film = new Film("name", "description", 2000, 0, 16, 180, 0);
-        FilmResponse filmResponse = new FilmResponse( "name", "description", 2000, "unknown", 16, 180, 0);
+        FilmResponse filmResponse = new FilmResponse("name", "description", 2000, "unknown", 16, 180, 0);
         when(genreService.getById(0)).thenReturn(new Genre("unknown"));
         var result = filmService.getByFilm(film);
         assertThat(result).isEqualTo(filmResponse);
@@ -71,8 +68,8 @@ public class FilmServiceTest {
     public void whenRequestFindAllThenOk() {
         Film film = new Film("name", "description", 2000, 0, 16, 180, 0);
         Film film2 = new Film("name2", "description2", 2000, 1, 16, 180, 0);
-        FilmResponse filmResponse = new FilmResponse( "name", "description", 2000, "genre1", 16, 180, 0);
-        FilmResponse filmResponse2 = new FilmResponse( "name", "description", 2000, "genre2", 16, 180, 0);
+        FilmResponse filmResponse = new FilmResponse("name", "description", 2000, "genre1", 16, 180, 0);
+        FilmResponse filmResponse2 = new FilmResponse("name", "description", 2000, "genre2", 16, 180, 0);
         when(filmRepository.findAll()).thenReturn(List.of(film, film2));
         when(genreService.getById(0)).thenReturn(new Genre("genre1"));
         when(genreService.getById(1)).thenReturn(new Genre("genre2"));
@@ -83,7 +80,7 @@ public class FilmServiceTest {
     @Test
     public void whenRequestFindByIdThenOk() {
         Film film = new Film("name", "description", 2000, 0, 16, 180, 0);
-        FilmResponse filmResponse = new FilmResponse( "name", "description", 2000, "genre1", 16, 180, 0);
+        FilmResponse filmResponse = new FilmResponse("name", "description", 2000, "genre1", 16, 180, 0);
         when(filmRepository.findById(0)).thenReturn(Optional.of(film));
         when(genreService.getById(0)).thenReturn(new Genre("genre1"));
         var result = filmService.findById(0);

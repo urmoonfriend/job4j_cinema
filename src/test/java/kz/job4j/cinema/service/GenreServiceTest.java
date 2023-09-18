@@ -22,7 +22,6 @@ public class GenreServiceTest {
     public void initServices() {
         sql2oGenreRepository = mock(Sql2oGenreRepository.class);
         genreService = new GenreServiceImpl(sql2oGenreRepository);
-
     }
 
     @Test
