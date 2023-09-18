@@ -101,8 +101,38 @@ create table tickets
 );
 ```
 
+#### - Заполнение таблиц в бд из файлов
+1) /scripts/002_dml_insert_genres.sql
+2) /scripts/002_dml_insert_files.sql
+3) /scripts/002_dml_insert_films.sql
+4) /scripts/002_dml_insert_halls.sql
+5) /scripts/002_dml_insert_film_sessions.sql
+
+
 ## Взаимодействие с приложением
+1) Главная страница
+![img.png](img.png)
+
+2. Кинотека
+![img_1.png](img_1.png)
+
+3. Страница фильма
+![img_2.png](img_2.png)
+
+4. Расписание
+![img_3.png](img_3.png)
+
+5. Страница сеанса
+![img_4.png](img_4.png)
+
+6. Страница входа 
+![img_5.png](img_5.png)
+
+7. Страница при успешной покупке
+![img_6.png](img_6.png)
+
+8. Страница при неуспешной покупке
+![img_7.png](img_7.png)
 
 ## Контакты
-
 #### - @urmoonfriend
