@@ -12,8 +12,14 @@ import java.util.Optional;
 @Repository
 @ThreadSafe
 public class Sql2oHallRepository implements HallRepository {
-
     private final Sql2o sql2o;
+    private static final String INSERT_HALL = "INSERT INTO halls (name, row_count, place_count, description) "
+            + "VALUES (:name, :row_count, :place_count, :description)";
+    private static final String FIND_BY_ID = "SELECT * FROM halls WHERE id = :id";
+    private static final String FIND_BY_NAME = "SELECT * FROM halls WHERE name = :name";
+    private static final String DELETE_BY_ID = "DELETE FROM halls WHERE id = :id";
+    private static final String FIND_ALL = "SELECT * FROM halls";
+    private static final String DELETE_ALL = "DELETE FROM halls";
 
     public Sql2oHallRepository(Sql2o sql2o) {
         this.sql2o = sql2o;
@@ -22,8 +28,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public Hall save(Hall hall) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("INSERT INTO halls (name, row_count, place_count, description) "
-                            + "VALUES (:name, :row_count, :place_count, :description)", true)
+            var query = connection.createQuery(INSERT_HALL, true)
                     .addParameter("name", hall.getName())
                     .addParameter("row_count", hall.getRowCount())
                     .addParameter("place_count", hall.getPlaceCount())
@@ -37,7 +42,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public Optional<Hall> findById(int id) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM halls WHERE id = :id");
+            var query = connection.createQuery(FIND_BY_ID);
             var hall = query.addParameter("id", id).setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetchFirst(Hall.class);
             return Optional.ofNullable(hall);
         }
@@ -46,7 +51,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public Optional<Hall> findByName(String name) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM halls WHERE name = :name");
+            var query = connection.createQuery(FIND_BY_NAME);
             var hall = query.addParameter("name", name).setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetchFirst(Hall.class);
             return Optional.ofNullable(hall);
         }
@@ -55,7 +60,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public void deleteById(int id) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("DELETE FROM halls WHERE id = :id");
+            var query = connection.createQuery(DELETE_BY_ID);
             query.addParameter("id", id).setColumnMappings(Hall.COLUMN_MAPPING).executeUpdate();
         }
     }
@@ -63,7 +68,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public Collection<Hall> findAll() {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM halls");
+            var query = connection.createQuery(FIND_ALL);
             return query.setColumnMappings(Hall.COLUMN_MAPPING).executeAndFetch(Hall.class);
         }
     }
@@ -71,7 +76,7 @@ public class Sql2oHallRepository implements HallRepository {
     @Override
     public void deleteAll() {
         try (var connection = sql2o.open()) {
-            connection.createQuery("DELETE FROM halls").executeUpdate();
+            connection.createQuery(DELETE_ALL).executeUpdate();
         }
     }
 }

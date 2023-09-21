@@ -5,6 +5,7 @@ import kz.job4j.cinema.model.request.BuyRequest;
 import kz.job4j.cinema.repository.TicketRepository;
 import kz.job4j.cinema.repository.impl.Sql2oTicketRepository;
 import kz.job4j.cinema.service.TicketService;
+import lombok.extern.slf4j.Slf4j;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,6 @@ public class TicketServiceImpl implements TicketService {
         ticket.setPlaceNumber(request.getPlaceNumber());
         ticket.setRowNumber(request.getRowNumber());
         ticket.setUserId(request.getUserId());
-        System.out.println("ticket to save: " + ticket.toString());
         return ticketRepository.save(ticket);
     }
 }

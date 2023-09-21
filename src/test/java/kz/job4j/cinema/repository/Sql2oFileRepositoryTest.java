@@ -2,9 +2,7 @@ package kz.job4j.cinema.repository;
 
 import kz.job4j.cinema.configuration.DatasourceConfiguration;
 import kz.job4j.cinema.model.entity.File;
-import kz.job4j.cinema.model.entity.Genre;
 import kz.job4j.cinema.repository.impl.Sql2oFileRepository;
-import kz.job4j.cinema.repository.impl.Sql2oGenreRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,17 +52,6 @@ public class Sql2oFileRepositoryTest {
     @Test
     public void findAll() {
         Collection<File> files = sql2oFileRepository.findAll();
-        files.stream().forEach(
-                file -> {
-                    System.out.println();
-                    System.out.println("[");
-                    System.out.println(file.getId());
-                    System.out.println(file.getName());
-                    System.out.println(file.getPath());
-                    System.out.println("]");
-                    System.out.println();
-                }
-        );
         assertThat(files.size()).isEqualTo(0);
     }
 

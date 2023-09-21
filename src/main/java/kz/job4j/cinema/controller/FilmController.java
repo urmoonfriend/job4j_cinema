@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @ThreadSafe
 @RequestMapping("/films")
 public class FilmController {
-    private static final String MESSAGE_ATTRIBUTE = "message";
-    private static final String NOT_FOUND_PAGE = "errors/404";
-    private static final String NOT_FOUND_MESSAGE = "Фильм с указанным идентификатором не найден";
-    private static final String FILM_ATTRIBUTE = "film";
     private final FilmService filmService;
 
     public FilmController(FilmServiceImpl filmService) {
@@ -33,10 +29,10 @@ public class FilmController {
     public String getById(Model model, @PathVariable int id) {
         var filmResponseOptional = filmService.findById(id);
         if (filmResponseOptional.isEmpty()) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, NOT_FOUND_MESSAGE);
-            return NOT_FOUND_PAGE;
+            model.addAttribute("message", "Фильм с указанным идентификатором не найден");
+            return "errors/404";
         }
-        model.addAttribute(FILM_ATTRIBUTE, filmResponseOptional.get());
+        model.addAttribute("film", filmResponseOptional.get());
         return "films/one";
     }
 }

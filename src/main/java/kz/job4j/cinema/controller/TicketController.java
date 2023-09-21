@@ -6,6 +6,7 @@ import kz.job4j.cinema.service.FilmSessionService;
 import kz.job4j.cinema.service.TicketService;
 import kz.job4j.cinema.service.impl.FilmSessionServiceImpl;
 import kz.job4j.cinema.service.impl.TicketServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/tickets")
+@Slf4j
 public class TicketController {
     private final TicketService ticketService;
     private final FilmSessionService sessionService;
-    private static final String MESSAGE_ATTRIBUTE = "message";
-    private static final String NOT_FOUND_PAGE = "errors/404";
-    private static final String NOT_FOUND_MESSAGE = "Билет с указанным идентификатором не найден";
-    private static final String TICKET_ATTRIBUTE = "ticket";
-    private static final String SESSION_ATTRIBUTE = "filmSession";
-    private static final String SUCCESS_PAGE = "tickets/success";
-    private static final String FAIL_PAGE = "tickets/fail";
 
     public TicketController(TicketServiceImpl ticketService, FilmSessionServiceImpl sessionService) {
         this.ticketService = ticketService;
@@ -32,23 +27,23 @@ public class TicketController {
 
     @PostMapping("/buy")
     public String buyTicket(@ModelAttribute BuyRequest buyRequest, Model model, HttpServletRequest request) {
-        System.out.println("buyTicket method request : " + buyRequest.toString());
+        log.info("buyTicket method request : " + buyRequest.toString());
         try {
             var user = (User) request.getAttribute("user");
             var filmSession = sessionService.findById(buyRequest.getFilmSessionId());
-            if (filmSession.isPresent()
-                    && ticketService.isAlreadyExists(buyRequest.getFilmSessionId(), buyRequest.getRowNumber(), buyRequest.getPlaceNumber())
-                    .isEmpty()) {
-                buyRequest.setUserId(user.getId());
-                System.out.println("ticket not exists");
-                model.addAttribute(SESSION_ATTRIBUTE, filmSession.get());
-                model.addAttribute(TICKET_ATTRIBUTE, ticketService.save(buyRequest));
-                return SUCCESS_PAGE;
+            if (filmSession.isEmpty()
+                    || ticketService.isAlreadyExists(buyRequest.getFilmSessionId(), buyRequest.getRowNumber(), buyRequest.getPlaceNumber())
+                    .isPresent()) {
+                return "tickets/fail";
             }
-            return FAIL_PAGE;
+            buyRequest.setUserId(user.getId());
+            log.info("ticket not exists");
+            model.addAttribute("filmSession", filmSession.get());
+            model.addAttribute("ticket", ticketService.save(buyRequest));
+            return "tickets/success";
         } catch (Exception exception) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, exception.getMessage());
-            return NOT_FOUND_PAGE;
+            model.addAttribute("message", exception.getMessage());
+            return "errors/404";
         }
     }
 

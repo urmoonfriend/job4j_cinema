@@ -13,6 +13,13 @@ import java.util.Optional;
 @ThreadSafe
 public class Sql2oFilmRepository implements FilmRepository {
     private final Sql2o sql2o;
+    private static final String INSERT_FILM = "INSERT INTO films (name, description, \"year\", genre_id, minimal_age, duration_in_minutes, file_id) "
+            + "VALUES (:name, :description, :year, :genre_id, :minimal_age, :duration_in_minutes, :file_id)";
+    private static final String FIND_BY_ID = "SELECT * FROM films WHERE id = :id";
+    private static final String FIND_BY_NAME = "SELECT * FROM films WHERE name = :name";
+    private static final String DELETE_BY_ID = "DELETE FROM films WHERE id = :id";
+    private static final String DELETE_ALL = "DELETE FROM films";
+    private static final String SELECT_ALL = "SELECT * FROM films";
 
     public Sql2oFilmRepository(Sql2o sql2o) {
         this.sql2o = sql2o;
@@ -21,8 +28,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public Film save(Film film) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("INSERT INTO films (name, description, \"year\", genre_id, minimal_age, duration_in_minutes, file_id) "
-                            + "VALUES (:name, :description, :year, :genre_id, :minimal_age, :duration_in_minutes, :file_id)", true)
+            var query = connection.createQuery(INSERT_FILM, true)
                     .addParameter("name", film.getName())
                     .addParameter("description", film.getDescription())
                     .addParameter("year", film.getYear())
@@ -39,7 +45,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public Optional<Film> findById(int id) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM films WHERE id = :id");
+            var query = connection.createQuery(FIND_BY_ID);
             var film = query.addParameter("id", id).setColumnMappings(Film.COLUMN_MAPPING).executeAndFetchFirst(Film.class);
             return Optional.ofNullable(film);
         }
@@ -48,7 +54,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public Optional<Film> findByName(String name) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM films WHERE name = :name");
+            var query = connection.createQuery(FIND_BY_NAME);
             var film = query.addParameter("name", name).setColumnMappings(Film.COLUMN_MAPPING).executeAndFetchFirst(Film.class);
             return Optional.ofNullable(film);
         }
@@ -57,7 +63,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public void deleteById(int id) {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("DELETE FROM films WHERE id = :id");
+            var query = connection.createQuery(DELETE_BY_ID);
             query.addParameter("id", id).executeUpdate();
         }
     }
@@ -65,14 +71,14 @@ public class Sql2oFilmRepository implements FilmRepository {
     @Override
     public void deleteAll() {
         try (var connection = sql2o.open()) {
-            connection.createQuery("DELETE FROM films").executeUpdate();
+            connection.createQuery(DELETE_ALL).executeUpdate();
         }
     }
 
     @Override
     public Collection<Film> findAll() {
         try (var connection = sql2o.open()) {
-            var query = connection.createQuery("SELECT * FROM films");
+            var query = connection.createQuery(SELECT_ALL);
             return query.setColumnMappings(Film.COLUMN_MAPPING).executeAndFetch(Film.class);
         }
     }

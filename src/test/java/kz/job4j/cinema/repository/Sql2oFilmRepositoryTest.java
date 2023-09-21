@@ -68,17 +68,6 @@ public class Sql2oFilmRepositoryTest {
     @Test
     public void findAll() {
         Collection<Film> films = sql2oFilmRepository.findAll();
-        films.stream().forEach(
-                film -> {
-                    System.out.println();
-                    System.out.println("[");
-                    System.out.println(film.getId());
-                    System.out.println(film.getName());
-                    System.out.println(film.getFileId());
-                    System.out.println("]");
-                    System.out.println();
-                }
-        );
         assertThat(films.size()).isEqualTo(0);
     }
 

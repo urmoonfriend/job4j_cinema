@@ -20,15 +20,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private static final String REDIRECT_SESSIONS = "redirect:/sessions";
-
-    private static final String MESSAGE_ATTRIBUTE = "message";
-
-    private static final String ERROR_ATTRIBUTE = "error";
-
-    private static final String INCORRECT_AUTHENTICATION_MESSAGE = "Почта или пароль введены неверно";
-    private static final String NOT_FOUND_PAGE = "errors/404";
-    private static final String NOT_FOUND_MESSAGE = "Пользователь с такой почтой уже существует";
 
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
@@ -44,13 +35,13 @@ public class UserController {
         var userOptional =
                 userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
-            model.addAttribute(ERROR_ATTRIBUTE, INCORRECT_AUTHENTICATION_MESSAGE);
+            model.addAttribute("error", "Почта или пароль введены неверно");
             return "users/login";
         }
         var session = request.getSession();
         session.setAttribute("user", userOptional.get());
         model.addAttribute("user", userOptional.get());
-        return REDIRECT_SESSIONS;
+        return "redirect:/sessions";
     }
 
     @GetMapping("/register")
@@ -62,8 +53,8 @@ public class UserController {
     public String register(Model model, @ModelAttribute User user) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, NOT_FOUND_MESSAGE);
-            return NOT_FOUND_PAGE;
+            model.addAttribute("message", "Пользователь с такой почтой уже существует");
+            return "errors/404";
         }
         model.addAttribute("user", user);
         return "users/login";
